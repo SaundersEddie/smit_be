@@ -1,5 +1,13 @@
 /** @type {import('jest').Config} */
 module.exports = {
+
+  globals: {
+    "ts-jest": {
+      tsconfig: "tsconfig.test.json",
+      useESM: true,
+    },
+  },
+
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",
 

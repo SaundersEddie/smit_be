@@ -13,5 +13,9 @@ module.exports = {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
 
-  testMatch: ["**/?(*.)+(test|spec).ts"],
+  testMatch: [
+    // "**/?(*.)+(test|spec).ts"
+    "<rootDir>/test/**/*.test.ts",
+    "<rootDir>/test/**/*.spec.ts"
+  ],
 };

@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { pool } from "./db.js";
+import { issuesRouter } from "./routes/issues.js";
 
 export function createApp() {
   const app = express();
@@ -23,6 +24,7 @@ export function createApp() {
     }
   });
 
+  app.use("/issues", issuesRouter);
 
   return app;
 }

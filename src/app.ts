@@ -1,4 +1,5 @@
 import express from "express";
+import type { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import { pool } from "./db.js";
 import { issuesRouter } from "./routes/issues.js";
@@ -10,7 +11,7 @@ export function createApp() {
 
   app.get("/health", (_req, res) => res.json({ ok: true }));
 
-    // "server + db are alive"
+ // "server + db are alive"
   app.get("/health/db", async (_req, res) => {
     try {
       const result = await pool.query("SELECT 1 AS ok");
@@ -25,6 +26,26 @@ export function createApp() {
   });
 
   app.use("/issues", issuesRouter);
+
+  app.use((req, res) => {
+    res.status(404).json({
+      ok: false,
+      error: "Route not found",
+      method: req.method,
+      path: req.originalUrl,
+    });
+  });
+  
+  app.use(
+  (err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+    console.error(err);
+
+    res.status(500).json({
+      ok: false,
+      error: err instanceof Error ? err.message : "Internal server error",
+    });
+  }
+);
 
   return app;
 }
